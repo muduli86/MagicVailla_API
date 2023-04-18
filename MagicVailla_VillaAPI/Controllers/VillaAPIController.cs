@@ -9,6 +9,13 @@ namespace MagicVilla_VillaAPI.Controllers;
 [ApiController] // allows to validate annotations in model class 
 public class VillaAPIController : ControllerBase
 {
+    private readonly ILogger<VillaAPIController> _logger;
+
+    public VillaAPIController(ILogger<VillaAPIController> logger)
+    {
+        _logger = logger;
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -17,6 +24,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<IEnumerable<VillaDTO>> GetVillas()
     {
+        _logger.LogInformation("Get Villas");
         return Ok(VillaStore.villaList);
     }
 
@@ -29,7 +37,13 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<VillaDTO> GetVillaById(int id)
     {
-        if (id == 0) return BadRequest();
+        if (id == 0)
+        {
+            _logger.LogError("Get Villa By id error");
+            return BadRequest();
+        }
+
+        ;
 
 
         var villa = VillaStore.villaList?.FirstOrDefault(x => x.Id == id);
@@ -42,7 +56,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO villaDTO)
+    public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO? villaDTO)
     {
         if (villaDTO == null) return BadRequest(villaDTO);
 
