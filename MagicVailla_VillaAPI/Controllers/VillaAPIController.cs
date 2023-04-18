@@ -10,18 +10,18 @@ namespace MagicVilla_VillaAPI.Controllers;
 [ApiController] // allows to validate annotations in model class 
 public class VillaAPIController : ControllerBase
 {
-    // private readonly ILogger<VillaAPIController> _logger;
-    // public VillaAPIController(ILogger<VillaAPIController> logger)
-    // {
-    //     _logger = logger;
-    // }
-
-    //Custom logging
-    private readonly ILogging _logger;
-    public VillaAPIController(ILogging logger)
+    private readonly ILogger<VillaAPIController> _logger;
+    public VillaAPIController(ILogger<VillaAPIController> logger)
     {
         _logger = logger;
     }
+
+    //Custom logging
+    // private readonly ILogging _logger;
+    // public VillaAPIController(ILogging logger)
+    // {
+    //     _logger = logger;
+    // }
 
 
 
