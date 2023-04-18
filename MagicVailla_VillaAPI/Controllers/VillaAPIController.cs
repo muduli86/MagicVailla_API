@@ -1,4 +1,5 @@
 ﻿using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,20 @@ namespace MagicVilla_VillaAPI.Controllers;
 [ApiController] // allows to validate annotations in model class 
 public class VillaAPIController : ControllerBase
 {
-    private readonly ILogger<VillaAPIController> _logger;
+    // private readonly ILogger<VillaAPIController> _logger;
+    // public VillaAPIController(ILogger<VillaAPIController> logger)
+    // {
+    //     _logger = logger;
+    // }
 
-    public VillaAPIController(ILogger<VillaAPIController> logger)
+    //Custom logging
+    private readonly ILogging _logger;
+    public VillaAPIController(ILogging logger)
     {
         _logger = logger;
     }
+
+
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -42,9 +51,6 @@ public class VillaAPIController : ControllerBase
             _logger.LogError("Get Villa By id error");
             return BadRequest();
         }
-
-        ;
-
 
         var villa = VillaStore.villaList?.FirstOrDefault(x => x.Id == id);
         if (villa == null) return NotFound();
